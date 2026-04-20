@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multifacetas</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  letter-spacing: -2px;
+  background: linear-gradient(90deg, #fff, #aaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  opacity: 0.7;
+}
+
+.cta {
+  margin-top: 30px;
+  padding: 14px 28px;
+  border-radius: 30px;
+  border: none;
+  background: white;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cta:hover {
+  transform: scale(1.05);
+}
+
+/* GLOW BACKGROUND */
+.glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0,150,255,0.4), transparent 70%);
+  filter: blur(100px);
+  animation: float 6s infinite alternate;
+}
+
+@keyframes float {
+  from { transform: translateY(-50px); }
+  to { transform: translateY(50px); }
+}
+
+/* SECTIONS */
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 80px 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(80px);
+  transition: 1s ease;
+}
+
+.section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 20px;
+}
+
+.section p {
+  max-width: 600px;
+  font-size: 1.3rem;
+  opacity: 0.7;
+}
+
+/* PARALLAX CARD */
+.card {
+  margin-top: 40px;
+  width: 300px;
+  height: 180px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #111, #222);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  transform-style: preserve-3d;
+  transition: transform 0.2s;
+}
+
+/* FINAL CTA */
+.final {
+  background: #050505;
+}
+
+footer {
+  padding: 40px;
+  font-size: 0.9rem;
+  opacity: 0.4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+  <div class="glow"></div>
+  <h1>Multifacetas</h1>
+  <p>Veja todas as versões de você.</p>
+  <button class="cta">Explorar</button>
+</div>
+
+<div class="section">
+  <h2>E se você tivesse escolhido diferente?</h2>
+  <p>Cada decisão cria uma nova realidade. Agora você pode vê-las.</p>
+  <div class="card"></div>
+</div>
+
+<div class="section">
+  <h2>Não é imaginação</h2>
+  <p>É tecnologia que revela possibilidades ocultas da sua vida.</p>
+  <div class="card"></div>
+</div>
+
+<div class="section">
+  <h2>Você, em infinitas versões</h2>
+  <p>Descubra quem você poderia ter sido — e quem ainda pode ser.</p>
+  <div class="card"></div>
+</div>
+
+<div class="section final">
+  <h2>Multifacetas</h2>
+  <p>O futuro não é único.</p>
+  <button class="cta">Comprar agora</button>
+</div>
+
+<footer>
+  © 2026 Multifacetas
+</footer>
+
+<script>
+/* SCROLL REVEAL */
+const sections = document.querySelectorAll('.section');
+
+function reveal() {
+  const trigger = window.innerHeight * 0.85;
+
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if (top < trigger) {
+      sec.classList.add('show');
+    }
+  });
+}
+
+window.addEventListener('scroll', reveal);
+reveal();
+
+/* PARALLAX 3D CARD */
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const rotateX = -(y / rect.height - 0.5) * 20;
+    const rotateY = (x / rect.width - 0.5) * 20;
+
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'rotateX(0) rotateY(0)';
+  });
+});
+
+/* SMOOTH SCROLL BUTTON */
+document.querySelectorAll('.cta').forEach(btn => {
+  btn.addEventListener('click', () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
+  });
+});
+</script>
+
+</body>
+</html>
